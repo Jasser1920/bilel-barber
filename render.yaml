@@ -1,0 +1,21 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: bilel-hedhli-barber
+    runtime: node
+    plan: free
+    region: frankfurt # closest Render region to Tunisia
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    # CD: deploy each push to main only after the GitHub Actions checks pass.
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: ADMIN_PASSWORD # Render asks for this when you create the service
+        sync: false
+      - key: DATABASE_URL # free Postgres from neon.tech; Render asks for this too
+        sync: false

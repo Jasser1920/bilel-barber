@@ -1,0 +1,102 @@
+/* Bilel Hedhli Barber — red and white only.
+   Layout: editorial, full-bleed photography, thin red rules, square corners, wide-tracked uppercase type. */
+:root {
+  --red: #c8102e;
+  --red-deep: #a00c24;
+  --red-soft: rgba(200, 16, 46, 0.72);
+  --red-faint: rgba(200, 16, 46, 0.35);
+  --line: rgba(200, 16, 46, 0.22);
+  --tint: #fdf1f3; /* red mixed into white */
+  --white: #ffffff;
+  --font: "Jost", "Futura", "Century Gothic", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--red);
+  font: 400 16px/1.6 var(--font);
+}
+h1, h2, h3 { font-weight: 400; margin: 0; line-height: 1.05; text-wrap: balance; }
+a { color: inherit; }
+button, input, select { font: inherit; color: inherit; }
+img { display: block; max-width: 100%; }
+::selection { background: var(--red); color: var(--white); }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+
+.eyebrow { font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; font-weight: 500; }
+
+/* ---------- buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  border: 1px solid var(--red); background: var(--red); color: var(--white);
+  padding: 14px 30px; border-radius: 0; cursor: pointer; text-decoration: none;
+  font-size: 12px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase;
+  transition: background 0.25s, color 0.25s;
+}
+.btn:hover { background: var(--white); color: var(--red); }
+.btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn:disabled:hover { background: var(--red); color: var(--white); }
+.btn.ghost { background: transparent; color: var(--red); }
+.btn.ghost:hover { background: var(--red); color: var(--white); }
+.btn.light { background: transparent; color: var(--white); border-color: var(--white); }
+.btn.light:hover { background: var(--white); color: var(--red); }
+.btn.small { padding: 9px 16px; font-size: 11px; letter-spacing: 0.18em; }
+
+/* ---------- booking pieces (shared) ---------- */
+.days { display: flex; gap: 0; overflow-x: auto; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); scroll-snap-type: x mandatory; scrollbar-width: thin; }
+.day {
+  flex: 0 0 84px; scroll-snap-align: start; border: 0; border-right: 1px solid var(--line); background: var(--white);
+  padding: 16px 4px; cursor: pointer; text-align: center; display: grid; gap: 2px; transition: background 0.2s, color 0.2s;
+}
+.day .dow, .day .mon { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+.day .num { font-size: 30px; font-weight: 300; line-height: 1.1; }
+.day:hover { background: var(--tint); }
+.day[aria-pressed="true"] { background: var(--red); color: var(--white); }
+.day:disabled { cursor: not-allowed; color: var(--red-faint); text-decoration: line-through; background: var(--white); }
+
+.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; }
+.slot {
+  padding: 12px 0; border: 1px solid var(--line); background: var(--white); cursor: pointer;
+  font-variant-numeric: tabular-nums; letter-spacing: 0.06em; transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.slot:hover:not(:disabled) { border-color: var(--red); }
+.slot[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: var(--white); }
+.slot:disabled { cursor: not-allowed; color: var(--red-faint); border-color: transparent; text-decoration: line-through; }
+.empty { color: var(--red-soft); padding: 12px 0; margin: 0; }
+
+.form { display: grid; gap: 24px; grid-template-columns: 1fr 1fr; }
+.form .full { grid-column: 1 / -1; }
+label { display: grid; gap: 6px; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; }
+input, select {
+  padding: 10px 0; border: 0; border-bottom: 1px solid var(--red-faint); border-radius: 0;
+  background: transparent; width: 100%; font-size: 16px; letter-spacing: 0.02em; text-transform: none; color: var(--red);
+}
+input::placeholder { color: var(--red-faint); }
+input:focus, select:focus { outline: none; border-bottom-color: var(--red); }
+
+.services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.service {
+  border: 1px solid var(--line); padding: 14px 16px; cursor: pointer; display: grid; gap: 2px;
+  background: var(--white); text-align: left; transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.service b { font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; font-size: 13px; }
+.service span { font-size: 14px; color: var(--red-soft); }
+.service:hover { border-color: var(--red); }
+.service[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: var(--white); }
+.service[aria-pressed="true"] span { color: var(--white); }
+
+.msg { margin: 0; padding: 12px 14px; background: var(--tint); color: var(--red); border-left: 2px solid var(--red); }
+.msg.ok { background: var(--red); color: var(--white); border-left-color: var(--red); }
+
+@media (max-width: 600px) {
+  .form { grid-template-columns: 1fr; }
+  .services { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
