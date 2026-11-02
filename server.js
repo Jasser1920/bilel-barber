@@ -88,7 +88,7 @@ function readBody(req) {
     });
   });
 }
-const MIME = { ".html": "text/html", ".json": "application/json", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".ico": "image/x-icon" };
+const MIME = { ".html": "text/html", ".json": "application/json", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".webp": "image/webp", ".jpg": "image/jpeg", ".png": "image/png", ".ico": "image/x-icon" };
 function serveStatic(req, res, pathname) {
   if (pathname === "/") pathname = "/index.html";
   if (pathname === "/admin") pathname = "/admin.html";
@@ -96,7 +96,10 @@ function serveStatic(req, res, pathname) {
   if (!file.startsWith(PUBLIC_DIR)) return send(res, 403, { error: "Forbidden" });
   fs.readFile(file, (err, buf) => {
     if (err) return send(res, 404, { error: "Not found" });
-    res.writeHead(200, { "Content-Type": (MIME[path.extname(file)] || "application/octet-stream") + "; charset=utf-8" });
+    const type = MIME[path.extname(file)] || "application/octet-stream";
+    const headers = { "Content-Type": type.startsWith("image/") ? type : type + "; charset=utf-8" };
+    if (pathname.startsWith("/img/")) headers["Cache-Control"] = "public, max-age=604800"; // photos: cache a week
+    res.writeHead(200, headers);
     res.end(buf);
   });
 }

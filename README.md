@@ -63,6 +63,7 @@ Run the tests yourself with `npm test`. Set `DATABASE_URL` first to test against
 
 ## Photos
 
-The booking page uses free Unsplash photos as placeholders (search `images.unsplash.com` in `public/index.html`).
-To use Bilel's own photos, put them in `public/img/` (for example `public/img/hero.jpg`) and change each
-`src="..."` to `/img/hero.jpg`. If a photo can't load, a red panel with a white label shows in its place.
+Bilel's own shop photos are in `public/img/` (WebP). To change one, replace the file with a new photo
+of the same name, or add a new file and update its `src="/img/..."` in `public/index.html`.
+On phones the opening photo is `bilel-travail.webp`; on larger screens it is `salon.webp`.
+If a photo can't load, a red panel with a white label shows in its place.

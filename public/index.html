@@ -44,7 +44,7 @@
   .hero { position: relative; height: 100vh; height: 100svh; min-height: 520px; color: var(--white); overflow: hidden; }
   .hero .frame { position: absolute; inset: 0; }
   .hero .frame img { height: 100%; inset: 0; transform-origin: 50% 40%; }
-  .hero .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(160,12,36,0.35) 0%, rgba(160,12,36,0) 30%, rgba(160,12,36,0) 55%, rgba(160,12,36,0.7) 100%); }
+  .hero .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(160,12,36,0.55) 0%, rgba(160,12,36,0.15) 28%, rgba(160,12,36,0.35) 50%, rgba(160,12,36,0.88) 100%); }
   .hero .copy { position: absolute; inset: auto 0 0; padding-bottom: max(56px, calc(env(safe-area-inset-bottom, 0px) + 40px)); display: grid; justify-items: center; gap: 22px; text-align: center; will-change: transform, opacity; }
   .hero h1 { font-size: clamp(64px, 16vw, 210px); font-weight: 300; letter-spacing: 0.32em; margin-right: -0.32em; line-height: 0.9; text-transform: uppercase; }
   .scroll-cue { position: absolute; left: 50%; bottom: 14px; width: 1px; height: 30px; background: rgba(255,255,255,0.7); transform-origin: top; animation: cue 2s ease-in-out infinite; }
@@ -153,7 +153,10 @@
 
 <section class="hero" id="hero">
   <figure class="frame">
-    <img id="heroImg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=2000&q=80" alt="" fetchpriority="high">
+    <picture>
+      <source media="(max-width: 700px)" srcset="/img/bilel-travail.webp">
+      <img id="heroImg" src="/img/salon.webp" style="object-position: 50% 45%" alt="" fetchpriority="high">
+    </picture>
     <figcaption class="fallback" aria-hidden="true"></figcaption>
   </figure>
   <div class="shade"></div>
@@ -174,14 +177,14 @@
 <section class="split gutter">
   <div>
     <figure class="frame a wipe">
-      <img data-speed="0.6" src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=1400&q=80" alt="" data-i18n-alt="split.cut" loading="lazy">
+      <img data-speed="0.6" src="/img/bilel-coupe.webp" style="object-position: 50% 30%" alt="" data-i18n-alt="split.cut" loading="lazy">
       <figcaption class="fallback" data-i18n="split.cut">La coupe</figcaption>
     </figure>
     <div class="caption reveal"><span data-i18n="split.cut">La coupe</span><span data-i18n="split.cutSub">Ciseaux &amp; tondeuse</span></div>
   </div>
   <div>
     <figure class="frame b wipe">
-      <img data-speed="1.2" src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=1400&q=80" alt="" data-i18n-alt="split.beard" loading="lazy">
+      <img data-speed="1.2" src="/img/poste.webp" style="object-position: 50% 50%" alt="" data-i18n-alt="split.beard" loading="lazy">
       <figcaption class="fallback" data-i18n="split.beard">La barbe</figcaption>
     </figure>
     <div class="caption reveal"><span data-i18n="split.beard">La barbe</span><span data-i18n="split.beardSub">Finition serviette chaude</span></div>
@@ -195,17 +198,17 @@
   </div>
   <div class="menu">
     <a class="item reveal" href="#book">
-      <figure class="frame"><img data-speed="0.4" src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=1000&q=80" alt="" data-i18n-alt="svc.haircut" loading="lazy"><figcaption class="fallback" data-i18n="svc.haircut">Coupe</figcaption></figure>
+      <figure class="frame"><img data-speed="0.4" src="/img/bilel-travail.webp" style="object-position: 40% 40%" alt="" data-i18n-alt="svc.haircut" loading="lazy"><figcaption class="fallback" data-i18n="svc.haircut">Coupe</figcaption></figure>
       <div class="row"><h3 data-i18n="svc.haircut">Coupe</h3></div>
       <span class="more" data-i18n="services.more">Réserver →</span>
     </a>
     <a class="item reveal" href="#book">
-      <figure class="frame"><img data-speed="0.4" src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=1000&q=80" alt="" data-i18n-alt="svc.beard" loading="lazy"><figcaption class="fallback" data-i18n="svc.beard">Barbe</figcaption></figure>
+      <figure class="frame"><img data-speed="0.4" src="/img/poste.webp" style="object-position: 30% 60%" alt="" data-i18n-alt="svc.beard" loading="lazy"><figcaption class="fallback" data-i18n="svc.beard">Barbe</figcaption></figure>
       <div class="row"><h3 data-i18n="svc.beard">Barbe</h3></div>
       <span class="more" data-i18n="services.more">Réserver →</span>
     </a>
     <a class="item reveal" href="#book">
-      <figure class="frame"><img data-speed="0.4" src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=1000&q=80" alt="" data-i18n-alt="svc.combo" loading="lazy"><figcaption class="fallback" data-i18n="svc.combo">Coupe + Barbe</figcaption></figure>
+      <figure class="frame"><img data-speed="0.4" src="/img/fauteuils.webp" style="object-position: 50% 45%" alt="" data-i18n-alt="svc.combo" loading="lazy"><figcaption class="fallback" data-i18n="svc.combo">Coupe + Barbe</figcaption></figure>
       <div class="row"><h3 data-i18n="svc.combo">Coupe + Barbe</h3></div>
       <span class="more" data-i18n="services.more">Réserver →</span>
     </a>
@@ -214,11 +217,11 @@
 
 <section class="strip" id="gallery" aria-label="Galerie" data-i18n-aria="nav.gallery">
   <div class="track" id="track">
-    <figure class="frame"><img src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=900&q=80" alt="" data-i18n-alt="gal.fade" loading="lazy"><figcaption class="fallback" data-i18n="gal.fade">Dégradé</figcaption></figure>
-    <figure class="frame"><img src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?auto=format&fit=crop&w=900&q=80" alt="" data-i18n-alt="gal.lines" loading="lazy"><figcaption class="fallback" data-i18n="gal.lines">Contours</figcaption></figure>
-    <figure class="frame"><img src="https://images.unsplash.com/photo-1592647420148-bfcc177e2117?auto=format&fit=crop&w=900&q=80" alt="" data-i18n-alt="gal.shave" loading="lazy"><figcaption class="fallback" data-i18n="gal.shave">Rasage</figcaption></figure>
-    <figure class="frame"><img src="https://images.unsplash.com/photo-1634480919926-b0d7e3e4bd5c?auto=format&fit=crop&w=900&q=80" alt="" data-i18n-alt="gal.detail" loading="lazy"><figcaption class="fallback" data-i18n="gal.detail">Détails</figcaption></figure>
-    <figure class="frame"><img src="https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&w=900&q=80" alt="" data-i18n-alt="gal.shop" loading="lazy"><figcaption class="fallback" data-i18n="gal.shop">Le salon</figcaption></figure>
+    <figure class="frame"><img src="/img/fauteuils.webp" style="object-position: 50% 50%" alt="" data-i18n-alt="gal.fade" loading="lazy"><figcaption class="fallback" data-i18n="gal.fade">Dégradé</figcaption></figure>
+    <figure class="frame"><img src="/img/bilel-coupe.webp" style="object-position: 60% 35%" alt="" data-i18n-alt="gal.lines" loading="lazy"><figcaption class="fallback" data-i18n="gal.lines">Contours</figcaption></figure>
+    <figure class="frame"><img src="/img/salon.webp" style="object-position: 30% 50%" alt="" data-i18n-alt="gal.shave" loading="lazy"><figcaption class="fallback" data-i18n="gal.shave">Rasage</figcaption></figure>
+    <figure class="frame"><img src="/img/bilel-travail.webp" style="object-position: 50% 30%" alt="" data-i18n-alt="gal.detail" loading="lazy"><figcaption class="fallback" data-i18n="gal.detail">Détails</figcaption></figure>
+    <figure class="frame"><img src="/img/poste.webp" style="object-position: 70% 40%" alt="" data-i18n-alt="gal.shop" loading="lazy"><figcaption class="fallback" data-i18n="gal.shop">Le salon</figcaption></figure>
   </div>
 </section>
 
