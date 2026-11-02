@@ -10,11 +10,8 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "bilel123";
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, "data");
 const PUBLIC_DIR = path.join(__dirname, "public");
 
-const SERVICES = {
-  haircut: { name: "Haircut", price: 15 },
-  beard: { name: "Beard trim", price: 10 },
-  combo: { name: "Haircut + Beard", price: 22 },
-};
+// Optional: a customer may say what they want; no prices are shown.
+const SERVICES = ["haircut", "beard", "combo"];
 
 // ---------- storage ----------
 const DEFAULT_DB = {
@@ -69,6 +66,8 @@ function isAdmin(req) {
 }
 
 // ---------- http helpers ----------
+// Errors carry a stable `code` so the page can show them in French, English or Arabic.
+const fail = (res, status, code, error) => send(res, status, { code, error });
 function send(res, status, body) {
   res.writeHead(status, { "Content-Type": "application/json" });
   res.end(JSON.stringify(body));
@@ -89,7 +88,7 @@ function readBody(req) {
     });
   });
 }
-const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".ico": "image/x-icon" };
+const MIME = { ".html": "text/html", ".json": "application/json", ".css": "text/css", ".js": "text/javascript", ".svg": "image/svg+xml", ".ico": "image/x-icon" };
 function serveStatic(req, res, pathname) {
   if (pathname === "/") pathname = "/index.html";
   if (pathname === "/admin") pathname = "/admin.html";
@@ -116,7 +115,7 @@ async function api(req, res, url) {
 
   if (m === "GET" && p === "/api/availability") {
     const date = url.searchParams.get("date");
-    if (!isDate(date)) return send(res, 400, { error: "Pick a valid date." });
+    if (!isDate(date)) return fail(res, 400, "bad_date", "Pick a valid date.");
     if (isClosed(date)) return send(res, 200, { date, closed: true, slots: [] });
     const taken = new Set(activeBookings(date).map((b) => b.start));
     const slots = slotStarts(db.settings).map((start) => ({ start, taken: taken.has(start) }));
@@ -128,13 +127,14 @@ async function api(req, res, url) {
     const name = String(b.name || "").trim().slice(0, 60);
     const phone = String(b.phone || "").trim().slice(0, 30);
     const start = Number(b.start);
-    if (!isDate(b.date)) return send(res, 400, { error: "Pick a valid date." });
-    if (!name || !phone) return send(res, 400, { error: "Please enter your name and phone number." });
-    if (!SERVICES[b.service]) return send(res, 400, { error: "Choose a service." });
-    if (isClosed(b.date)) return send(res, 409, { error: "The shop is closed that day. Pick another date." });
-    if (!slotStarts(db.settings).includes(start)) return send(res, 409, { error: "That time is outside opening hours." });
+    if (!isDate(b.date)) return fail(res, 400, "bad_date", "Pick a valid date.");
+    if (!name || !phone) return fail(res, 400, "missing_details", "Please enter your name and phone number.");
+    const service = b.service ?? null;
+    if (service !== null && !SERVICES.includes(service)) return fail(res, 400, "bad_service", "Unknown service.");
+    if (isClosed(b.date)) return fail(res, 409, "closed", "The shop is closed that day. Pick another date.");
+    if (!slotStarts(db.settings).includes(start)) return fail(res, 409, "outside_hours", "That time is outside opening hours.");
     if (activeBookings(b.date).some((x) => x.start === start))
-      return send(res, 409, { error: "Someone just took that time. Pick another one." });
+      return fail(res, 409, "taken", "Someone just took that time. Pick another one.");
     const booking = {
       id: crypto.randomUUID(),
       date: b.date,
@@ -142,7 +142,7 @@ async function api(req, res, url) {
       duration: db.settings.slotMinutes,
       name,
       phone,
-      service: b.service,
+      service,
       status: "booked",
       delayMinutes: 0,
       createdAt: new Date().toISOString(),
@@ -158,7 +158,7 @@ async function api(req, res, url) {
       typeof b.password === "string" &&
       b.password.length === ADMIN_PASSWORD.length &&
       crypto.timingSafeEqual(Buffer.from(b.password), Buffer.from(ADMIN_PASSWORD));
-    if (!ok) return send(res, 401, { error: "Wrong password." });
+    if (!ok) return fail(res, 401, "wrong_password", "Wrong password.");
     const token = crypto.randomBytes(24).toString("hex");
     tokens.add(token);
     return send(res, 200, { token });
@@ -166,7 +166,7 @@ async function api(req, res, url) {
 
   // Admin only below
   if (!p.startsWith("/api/admin/")) return send(res, 404, { error: "Not found" });
-  if (!isAdmin(req)) return send(res, 401, { error: "Please log in again." });
+  if (!isAdmin(req)) return fail(res, 401, "auth", "Please log in again.");
 
   if (m === "GET" && p === "/api/admin/bookings") {
     const from = url.searchParams.get("from") || "0000-00-00";
@@ -180,7 +180,7 @@ async function api(req, res, url) {
   const bm = p.match(/^\/api\/admin\/bookings\/([\w-]+)$/);
   if (bm) {
     const booking = db.bookings.find((b) => b.id === bm[1]);
-    if (!booking) return send(res, 404, { error: "Booking not found." });
+    if (!booking) return fail(res, 404, "not_found", "Booking not found.");
     if (m === "DELETE") {
       db.bookings = db.bookings.filter((b) => b.id !== booking.id);
       await saveDb();
@@ -198,12 +198,12 @@ async function api(req, res, url) {
 
   if (m === "PUT" && p === "/api/admin/settings") {
     const b = await readBody(req);
-    if (!isTime(b.openTime) || !isTime(b.closeTime)) return send(res, 400, { error: "Times must look like 15:00." });
+    if (!isTime(b.openTime) || !isTime(b.closeTime)) return fail(res, 400, "bad_time", "Times must look like 15:00.");
     const slot = Number(b.slotMinutes);
-    if (![15, 20, 30, 45, 60].includes(slot)) return send(res, 400, { error: "Slot length must be 15, 20, 30, 45 or 60 minutes." });
+    if (![15, 20, 30, 45, 60].includes(slot)) return fail(res, 400, "bad_slot", "Slot length must be 15, 20, 30, 45 or 60 minutes.");
     const weeklyOff = Array.isArray(b.weeklyOff) ? [...new Set(b.weeklyOff.map(Number).filter((d) => d >= 0 && d <= 6))] : [];
     const next = { ...db.settings, openTime: b.openTime, closeTime: b.closeTime, slotMinutes: slot, weeklyOff };
-    if (slotStarts(next).length === 0) return send(res, 400, { error: "Those hours leave no time for a single appointment." });
+    if (slotStarts(next).length === 0) return fail(res, 400, "no_slots", "Those hours leave no time for a single appointment.");
     db.settings = next;
     await saveDb();
     return send(res, 200, db.settings);
@@ -211,7 +211,7 @@ async function api(req, res, url) {
 
   if (m === "POST" && p === "/api/admin/closed") {
     const b = await readBody(req);
-    if (!isDate(b.date)) return send(res, 400, { error: "Invalid date." });
+    if (!isDate(b.date)) return fail(res, 400, "bad_date", "Invalid date.");
     const set = new Set(db.settings.closedDates);
     b.closed ? set.add(b.date) : set.delete(b.date);
     db.settings.closedDates = [...set].sort();

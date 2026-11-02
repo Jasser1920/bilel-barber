@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr" data-title-key="meta.title">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bilel Hedhli — Barber</title>
-<meta name="description" content="Book your haircut or beard trim with Bilel Hedhli online. Call 54 182 077.">
+<title>Bilel Hedhli — Barbier</title>
+<meta name="description" content="Réservez votre coupe ou votre barbe chez Bilel Hedhli en ligne. Tél. 54 182 077.">
 <meta name="theme-color" content="#c8102e">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Tajawal:wght@300;400;500;700&display=swap">
 <link rel="stylesheet" href="/style.css">
 <style>
   .gutter { padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
@@ -20,14 +20,14 @@
     color: var(--white); transition: background 0.35s, color 0.35s, border-color 0.35s;
     border-bottom: 1px solid transparent;
   }
-  .top .bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 68px; }
-  .top nav { display: flex; gap: 28px; }
+  .top .bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 68px; gap: 12px; }
+  .top nav { display: flex; gap: 28px; align-items: center; }
   .top nav a { text-decoration: none; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase; font-weight: 500; }
   .top nav a:hover { text-decoration: underline; text-underline-offset: 6px; }
   .top .right { justify-content: flex-end; }
   .logo { font-size: 26px; font-weight: 400; letter-spacing: 0.55em; margin-right: -0.55em; text-decoration: none; text-transform: uppercase; }
   .top.solid { background: var(--white); color: var(--red); border-bottom-color: var(--line); }
-  @media (max-width: 640px) { .top nav .hide-sm { display: none; } .logo { font-size: 20px; letter-spacing: 0.45em; margin-right: -0.45em; } }
+  @media (max-width: 640px) { .top nav .hide-sm { display: none; } .top nav a { letter-spacing: 0.16em; } .logo { font-size: 20px; letter-spacing: 0.45em; margin-right: -0.45em; } }
 
   /* ---------- photo frames ---------- */
   .frame { position: relative; overflow: hidden; background: var(--red); margin: 0; }
@@ -65,13 +65,12 @@
   .sec-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; }
   .sec-head h2 { font-size: clamp(34px, 6vw, 72px); font-weight: 300; letter-spacing: 0.12em; text-transform: uppercase; }
   .menu { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px, 2.4vw, 32px); }
-  .item { display: grid; gap: 14px; text-decoration: none; cursor: pointer; background: none; border: 0; padding: 0; text-align: left; }
+  .item { display: grid; gap: 14px; text-decoration: none; cursor: pointer; background: none; border: 0; padding: 0; text-align: start; }
   .item .frame { aspect-ratio: 3 / 4; }
   .item .frame img { transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
   .item:hover .frame img { transform: scale(1.06) !important; }
   .item .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
   .item h3 { font-size: 15px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; }
-  .item .price { font-size: 20px; font-weight: 300; font-variant-numeric: tabular-nums; }
   .item .more { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; }
 
   /* ---------- moving strip ---------- */
@@ -114,6 +113,21 @@
   .js .frame.wipe { clip-path: inset(100% 0 0 0); transition: clip-path 1.4s cubic-bezier(.7,0,.2,1); }
   .js .frame.wipe.in { clip-path: inset(0 0 0 0); }
 
+  /* ---------- language switch ---------- */
+  .lang-switch { display: flex; gap: 2px; }
+  .lang-switch button { background: none; border: 0; color: inherit; cursor: pointer; padding: 4px 6px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; opacity: 0.6; }
+  .lang-switch button[lang="ar"] { font-family: "Tajawal", var(--font); font-size: 13px; letter-spacing: 0; }
+  .lang-switch button:hover, .lang-switch button[aria-pressed="true"] { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+  footer .lang-switch button { font-size: 11px; }
+
+  /* ---------- Arabic: right-to-left, Arabic font, no letter-spacing (it breaks joined letters) ---------- */
+  html[lang="ar"] body { font-family: "Tajawal", var(--font); }
+  html[lang="ar"] *:not(.latin):not(.latin *) { letter-spacing: 0 !important; }
+  html[lang="ar"] .intro p.lead { line-height: 1.6; }
+  html[lang="ar"] .band h2 { line-height: 1.3; }
+  .latin { direction: ltr; }
+  .strip { direction: ltr; } /* keeps the sideways gallery motion the same in Arabic */
+
   @media (max-width: 760px) {
     .menu { grid-template-columns: 1fr; gap: 48px; }
     .split { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -125,153 +139,155 @@
   }
 </style>
 <script>document.documentElement.classList.add("js");</script>
+<script src="/i18n.js"></script>
 </head>
 <body>
 
 <header class="top" id="top">
   <div class="bar gutter">
-    <nav><a href="#services">Services</a><a href="#gallery" class="hide-sm">Gallery</a></nav>
-    <a href="#" class="logo">Bilel</a>
-    <nav class="right"><a href="https://www.instagram.com/bilel_hedhli24/" target="_blank" rel="noopener" class="hide-sm">Instagram</a><a href="#book">Book</a></nav>
+    <nav><div class="lang-switch"></div><a href="#services" class="hide-sm" data-i18n="nav.services">Services</a><a href="#gallery" class="hide-sm" data-i18n="nav.gallery">Galerie</a></nav>
+    <a href="#" class="logo latin">Bilel</a>
+    <nav class="right"><a href="https://www.instagram.com/bilel_hedhli24/" target="_blank" rel="noopener" class="hide-sm" data-i18n="nav.instagram">Instagram</a><a href="#book" data-i18n="nav.book">Réserver</a></nav>
   </div>
 </header>
 
 <section class="hero" id="hero">
   <figure class="frame">
-    <img id="heroImg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=2000&q=80" alt="Barber at work in the shop" fetchpriority="high">
+    <img id="heroImg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=2000&q=80" alt="" fetchpriority="high">
     <figcaption class="fallback" aria-hidden="true"></figcaption>
   </figure>
   <div class="shade"></div>
   <div class="copy gutter" id="heroCopy">
-    <div class="eyebrow">Hedhli · Barber</div>
-    <h1>Bilel</h1>
-    <a class="btn light" href="#book">Book an appointment</a>
+    <div class="eyebrow" data-i18n="hero.eyebrow">Hedhli · Barbier</div>
+    <h1 class="latin">Bilel</h1>
+    <a class="btn light" href="#book" data-i18n="hero.cta">Prendre rendez-vous</a>
   </div>
   <span class="scroll-cue" aria-hidden="true"></span>
 </section>
 
 <section class="intro gutter">
-  <div class="eyebrow reveal">The chair</div>
-  <p class="lead reveal">Clean lines, sharp fades and a proper shave. Take a seat.</p>
-  <div class="eyebrow reveal" id="introHours">&nbsp;</div>
+  <div class="eyebrow reveal" data-i18n="intro.eyebrow">Le fauteuil</div>
+  <p class="lead reveal" data-i18n="intro.lead">Des lignes nettes, des dégradés précis et un rasage soigné. Installez-vous.</p>
+  <div class="eyebrow reveal" data-hours>&nbsp;</div>
 </section>
 
 <section class="split gutter">
   <div>
     <figure class="frame a wipe">
-      <img data-speed="0.6" src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=1400&q=80" alt="Haircut in progress" loading="lazy">
-      <figcaption class="fallback">The cut</figcaption>
+      <img data-speed="0.6" src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=1400&q=80" alt="" data-i18n-alt="split.cut" loading="lazy">
+      <figcaption class="fallback" data-i18n="split.cut">La coupe</figcaption>
     </figure>
-    <div class="caption reveal"><span>The cut</span><span>Scissors &amp; clippers</span></div>
+    <div class="caption reveal"><span data-i18n="split.cut">La coupe</span><span data-i18n="split.cutSub">Ciseaux &amp; tondeuse</span></div>
   </div>
   <div>
     <figure class="frame b wipe">
-      <img data-speed="1.2" src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=1400&q=80" alt="Beard being shaped" loading="lazy">
-      <figcaption class="fallback">The beard</figcaption>
+      <img data-speed="1.2" src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=1400&q=80" alt="" data-i18n-alt="split.beard" loading="lazy">
+      <figcaption class="fallback" data-i18n="split.beard">La barbe</figcaption>
     </figure>
-    <div class="caption reveal"><span>The beard</span><span>Hot towel finish</span></div>
+    <div class="caption reveal"><span data-i18n="split.beard">La barbe</span><span data-i18n="split.beardSub">Finition serviette chaude</span></div>
   </div>
 </section>
 
 <section class="services-sec gutter" id="services">
   <div class="sec-head">
-    <h2 class="reveal">Services</h2>
-    <span class="eyebrow reveal">Prices in USD</span>
+    <h2 class="reveal" data-i18n="services.title">Services</h2>
+    <span class="eyebrow reveal" data-i18n="services.sub">Sur rendez-vous</span>
   </div>
-  <div class="menu" id="menu">
-    <button class="item reveal" type="button" data-service="haircut">
-      <figure class="frame"><img data-speed="0.4" src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=1000&q=80" alt="Fresh haircut" loading="lazy"><figcaption class="fallback">Haircut</figcaption></figure>
-      <div class="row"><h3>Haircut</h3><span class="price" data-price="haircut">$15</span></div>
-      <span class="more">Book this →</span>
-    </button>
-    <button class="item reveal" type="button" data-service="beard">
-      <figure class="frame"><img data-speed="0.4" src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=1000&q=80" alt="Beard trim" loading="lazy"><figcaption class="fallback">Beard</figcaption></figure>
-      <div class="row"><h3>Beard trim</h3><span class="price" data-price="beard">$10</span></div>
-      <span class="more">Book this →</span>
-    </button>
-    <button class="item reveal" type="button" data-service="combo">
-      <figure class="frame"><img data-speed="0.4" src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=1000&q=80" alt="Haircut and beard together" loading="lazy"><figcaption class="fallback">Cut + Beard</figcaption></figure>
-      <div class="row"><h3>Haircut + Beard</h3><span class="price" data-price="combo">$22</span></div>
-      <span class="more">Book this →</span>
-    </button>
+  <div class="menu">
+    <a class="item reveal" href="#book">
+      <figure class="frame"><img data-speed="0.4" src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=1000&q=80" alt="" data-i18n-alt="svc.haircut" loading="lazy"><figcaption class="fallback" data-i18n="svc.haircut">Coupe</figcaption></figure>
+      <div class="row"><h3 data-i18n="svc.haircut">Coupe</h3></div>
+      <span class="more" data-i18n="services.more">Réserver →</span>
+    </a>
+    <a class="item reveal" href="#book">
+      <figure class="frame"><img data-speed="0.4" src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=1000&q=80" alt="" data-i18n-alt="svc.beard" loading="lazy"><figcaption class="fallback" data-i18n="svc.beard">Barbe</figcaption></figure>
+      <div class="row"><h3 data-i18n="svc.beard">Barbe</h3></div>
+      <span class="more" data-i18n="services.more">Réserver →</span>
+    </a>
+    <a class="item reveal" href="#book">
+      <figure class="frame"><img data-speed="0.4" src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=1000&q=80" alt="" data-i18n-alt="svc.combo" loading="lazy"><figcaption class="fallback" data-i18n="svc.combo">Coupe + Barbe</figcaption></figure>
+      <div class="row"><h3 data-i18n="svc.combo">Coupe + Barbe</h3></div>
+      <span class="more" data-i18n="services.more">Réserver →</span>
+    </a>
   </div>
 </section>
 
-<section class="strip" id="gallery" aria-label="Gallery">
+<section class="strip" id="gallery" aria-label="Galerie" data-i18n-aria="nav.gallery">
   <div class="track" id="track">
-    <figure class="frame"><img src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=900&q=80" alt="Barber chair" loading="lazy"><figcaption class="fallback">Fade</figcaption></figure>
-    <figure class="frame"><img src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?auto=format&fit=crop&w=900&q=80" alt="Clipper detail" loading="lazy"><figcaption class="fallback">Lines</figcaption></figure>
-    <figure class="frame"><img src="https://images.unsplash.com/photo-1592647420148-bfcc177e2117?auto=format&fit=crop&w=900&q=80" alt="Finished cut" loading="lazy"><figcaption class="fallback">Shave</figcaption></figure>
-    <figure class="frame"><img src="https://images.unsplash.com/photo-1634480919926-b0d7e3e4bd5c?auto=format&fit=crop&w=900&q=80" alt="Straight razor shave" loading="lazy"><figcaption class="fallback">Detail</figcaption></figure>
-    <figure class="frame"><img src="https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&w=900&q=80" alt="Barbershop interior" loading="lazy"><figcaption class="fallback">The shop</figcaption></figure>
+    <figure class="frame"><img src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=900&q=80" alt="" data-i18n-alt="gal.fade" loading="lazy"><figcaption class="fallback" data-i18n="gal.fade">Dégradé</figcaption></figure>
+    <figure class="frame"><img src="https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?auto=format&fit=crop&w=900&q=80" alt="" data-i18n-alt="gal.lines" loading="lazy"><figcaption class="fallback" data-i18n="gal.lines">Contours</figcaption></figure>
+    <figure class="frame"><img src="https://images.unsplash.com/photo-1592647420148-bfcc177e2117?auto=format&fit=crop&w=900&q=80" alt="" data-i18n-alt="gal.shave" loading="lazy"><figcaption class="fallback" data-i18n="gal.shave">Rasage</figcaption></figure>
+    <figure class="frame"><img src="https://images.unsplash.com/photo-1634480919926-b0d7e3e4bd5c?auto=format&fit=crop&w=900&q=80" alt="" data-i18n-alt="gal.detail" loading="lazy"><figcaption class="fallback" data-i18n="gal.detail">Détails</figcaption></figure>
+    <figure class="frame"><img src="https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&w=900&q=80" alt="" data-i18n-alt="gal.shop" loading="lazy"><figcaption class="fallback" data-i18n="gal.shop">Le salon</figcaption></figure>
   </div>
 </section>
 
 <section class="band gutter">
-  <div class="eyebrow reveal">Walk in looking good</div>
-  <h2 class="reveal">Your chair<br>is waiting</h2>
-  <div class="hours reveal" id="bandHours">&nbsp;</div>
-  <a class="btn light reveal" href="#book">Book now</a>
+  <div class="eyebrow reveal" data-i18n="band.eyebrow">Repartez impeccable</div>
+  <h2 class="reveal" data-i18n-html="band.title">Votre fauteuil<br>vous attend</h2>
+  <div class="hours reveal" data-hours>&nbsp;</div>
+  <a class="btn light reveal" href="#book" data-i18n="band.cta">Réserver</a>
   <div class="contact reveal">
-    <a href="tel:+21654182077">Call 54 182 077</a>
-    <a href="https://www.instagram.com/bilel_hedhli24/" target="_blank" rel="noopener">Instagram @bilel_hedhli24</a>
+    <a href="tel:+21654182077" data-i18n-html="contact.call">Appeler le <span dir="ltr">54 182 077</span></a>
+    <a href="https://www.instagram.com/bilel_hedhli24/" target="_blank" rel="noopener" data-i18n="contact.ig">Instagram @bilel_hedhli24</a>
   </div>
 </section>
 
 <section class="book gutter" id="book">
   <div class="sec-head">
-    <h2>Book</h2>
-    <span class="eyebrow" id="bookHours">&nbsp;</span>
+    <h2 data-i18n="book.title">Réserver</h2>
+    <span class="eyebrow" data-hours>&nbsp;</span>
   </div>
 
   <div class="step" data-booking>
-    <div class="step-h"><span class="n">01</span><h3>Day</h3></div>
-    <div class="days" id="days" role="group" aria-label="Days"></div>
+    <div class="step-h"><span class="n">01</span><h3 data-i18n="step.day">Jour</h3></div>
+    <div class="days" id="days" role="group" data-i18n-aria="step.day"></div>
   </div>
 
   <div class="step" data-booking>
-    <div class="step-h"><span class="n">02</span><h3>Time</h3></div>
-    <div class="slots" id="slots"><p class="empty">Loading times…</p></div>
+    <div class="step-h"><span class="n">02</span><h3 data-i18n="step.time">Heure</h3></div>
+    <div class="slots" id="slots"><p class="empty" data-i18n="slots.loading">Chargement des horaires…</p></div>
   </div>
 
   <div class="step" data-booking>
-    <div class="step-h"><span class="n">03</span><h3>Your details</h3></div>
+    <div class="step-h"><span class="n">03</span><h3 data-i18n="step.details">Vos coordonnées</h3></div>
     <form class="form" id="form" novalidate>
-      <div class="full services" id="serviceChoice"></div>
-      <label>Name<input id="name" autocomplete="name" required placeholder="Your name"></label>
-      <label>Phone<input id="phone" type="tel" autocomplete="tel" required placeholder="So Bilel can reach you"></label>
+      <label><span data-i18n="form.name">Nom</span><input id="name" autocomplete="name" required data-i18n-ph="form.namePh" placeholder="Votre nom"></label>
+      <label><span data-i18n="form.phone">Téléphone</span><input id="phone" type="tel" dir="ltr" autocomplete="tel" required data-i18n-ph="form.phonePh" placeholder="Pour que Bilel puisse vous joindre"></label>
       <div class="full summary">
-        <p id="summary">Pick a day and a time.</p>
-        <button class="btn" id="bookBtn" type="submit" disabled>Confirm booking</button>
+        <p id="summary"></p>
+        <button class="btn" id="bookBtn" type="submit" disabled data-i18n="form.confirm">Confirmer</button>
       </div>
       <p class="msg full" id="error" hidden></p>
     </form>
   </div>
 
   <div class="done" id="doneCard" hidden>
-    <div class="eyebrow">You're booked</div>
+    <div class="eyebrow" data-i18n="done.eyebrow">C'est réservé</div>
     <div class="big" id="doneTime"></div>
     <p id="doneText"></p>
-    <button class="btn ghost" id="againBtn" type="button">Book another</button>
+    <button class="btn ghost" id="againBtn" type="button" data-i18n="done.again">Nouvelle réservation</button>
   </div>
 </section>
 
 <footer class="gutter">
-  <span class="logo">Bilel</span>
+  <span class="logo latin">Bilel</span>
   <div class="foot-links">
-    <span>Bilel Hedhli</span>
-    <a href="tel:+21654182077">54 182 077</a>
-    <a href="https://www.instagram.com/bilel_hedhli24/" target="_blank" rel="noopener">Instagram</a>
-    <a href="/admin">Barber login</a>
+    <span class="latin">Bilel Hedhli</span>
+    <a href="tel:+21654182077" class="latin">54 182 077</a>
+    <a href="https://www.instagram.com/bilel_hedhli24/" target="_blank" rel="noopener" data-i18n="nav.instagram">Instagram</a>
+    <a href="/admin" data-i18n="footer.login">Espace barbier</a>
+    <div class="lang-switch"></div>
   </div>
 </footer>
 
 <script>
 const $ = (id) => document.getElementById(id);
-const DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const state = { settings: null, date: null, start: null, service: "haircut" };
+const { t } = I18N;
+const state = { settings: null, date: null, start: null, booked: null };
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+I18N.apply();
 
 /* ---------- images: red panel with a label if a photo fails ---------- */
 document.querySelectorAll(".frame img").forEach((img) => {
@@ -295,12 +311,12 @@ function onScroll() {
     for (const img of parallax) {
       const r = img.parentElement.getBoundingClientRect();
       if (r.bottom < -100 || r.top > vh + 100) continue;
-      const centre = (r.top + r.height / 2 - vh / 2) / vh; // -1 … 1
+      const centre = (r.top + r.height / 2 - vh / 2) / vh;
       img.style.transform = `translate3d(0, ${centre * -60 * img.dataset.speed}px, 0)`;
     }
     const sr = track.parentElement.getBoundingClientRect();
     if (sr.bottom > 0 && sr.top < vh) {
-      const prog = (vh - sr.top) / (vh + sr.height); // 0 → 1 while it crosses the screen
+      const prog = (vh - sr.top) / (vh + sr.height);
       const max = Math.max(0, track.scrollWidth - innerWidth + 40);
       track.style.transform = `translate3d(${20 - prog * max}px, 0, 0)`;
     }
@@ -324,15 +340,16 @@ document.querySelectorAll(".wipe").forEach((el) => wipeIo.observe(el.parentEleme
 /* ---------- booking ---------- */
 const pad = (n) => String(n).padStart(2, "0");
 const ymd = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-function timeLabel(min) {
-  const m = ((min % 1440) + 1440) % 1440, h = Math.floor(m / 60);
-  return `${((h + 11) % 12) + 1}:${pad(m % 60)} ${h < 12 ? "AM" : "PM"}`;
-}
 const hhmmToMin = (s) => { const [h, m] = s.split(":").map(Number); return h * 60 + m; };
-function prettyDate(date) { const d = new Date(date + "T12:00:00"); return `${DOW[d.getDay()]} ${d.getDate()} ${MON[d.getMonth()]}`; }
 function isClosed(date) {
   const s = state.settings;
   return s.closedDates.includes(date) || s.weeklyOff.includes(new Date(date + "T12:00:00").getDay());
+}
+
+function renderHours() {
+  if (!state.settings) return;
+  const text = t("hours", { open: I18N.time(hhmmToMin(state.settings.openTime)), close: I18N.time(hhmmToMin(state.settings.closeTime)) });
+  document.querySelectorAll("[data-hours]").forEach((el) => (el.textContent = text));
 }
 
 function renderDays() {
@@ -345,32 +362,39 @@ function renderDays() {
     const b = document.createElement("button");
     b.type = "button"; b.className = "day";
     b.disabled = isClosed(date);
-    b.title = b.disabled ? "Closed" : "";
+    b.title = b.disabled ? t("day.closed") : "";
     b.setAttribute("aria-pressed", String(date === state.date));
-    b.innerHTML = `<span class="dow">${i === 0 ? "Today" : DOW[d.getDay()]}</span><span class="num">${d.getDate()}</span><span class="mon">${MON[d.getMonth()]}</span>`;
+    b.innerHTML = `<span class="dow">${i === 0 ? t("day.today") : I18N.weekday(d.getDay())}</span><span class="num">${d.getDate()}</span><span class="mon">${I18N.monthShort(d)}</span>`;
     b.onclick = () => { state.date = date; state.start = null; renderDays(); loadSlots(); updateSummary(); };
     box.appendChild(b);
   }
 }
 
+let slotData = null;
 async function loadSlots() {
   const box = $("slots");
-  if (!state.date) { box.innerHTML = `<p class="empty">Pick a day first.</p>`; return; }
-  box.innerHTML = `<p class="empty">Loading times…</p>`;
-  const r = await fetch(`/api/availability?date=${state.date}`).then((r) => r.json());
-  if (r.closed) { box.innerHTML = `<p class="empty">Bilel is closed on ${prettyDate(state.date)}. Pick another day.</p>`; return; }
+  if (!state.date) { box.innerHTML = `<p class="empty">${t("slots.pickDay")}</p>`; return; }
+  box.innerHTML = `<p class="empty">${t("slots.loading")}</p>`;
+  slotData = await fetch(`/api/availability?date=${state.date}`).then((r) => r.json());
+  renderSlots();
+}
+function renderSlots() {
+  const box = $("slots");
+  if (!slotData) return;
+  if (slotData.closed) { box.innerHTML = `<p class="empty">${t("slots.closed", { date: I18N.dateLong(state.date) })}</p>`; return; }
   const now = new Date();
   const isToday = state.date === ymd(now);
   const nowMin = now.getHours() * 60 + now.getMinutes();
-  const slots = r.slots.filter((s) => !isToday || s.start > nowMin);
-  if (!slots.length) { box.innerHTML = `<p class="empty">No times left on this day. Try tomorrow.</p>`; return; }
+  const slots = slotData.slots.filter((s) => !isToday || s.start > nowMin);
+  if (!slots.length) { box.innerHTML = `<p class="empty">${t("slots.none")}</p>`; return; }
   box.innerHTML = "";
   for (const s of slots) {
     const b = document.createElement("button");
     b.type = "button"; b.className = "slot";
-    b.textContent = timeLabel(s.start);
+    b.textContent = I18N.time(s.start);
+    b.dir = "ltr";
     b.disabled = s.taken;
-    if (s.taken) b.title = "Already booked";
+    if (s.taken) b.title = t("slots.taken");
     b.setAttribute("aria-pressed", String(s.start === state.start));
     b.onclick = () => {
       state.start = s.start;
@@ -382,77 +406,68 @@ async function loadSlots() {
   }
 }
 
-function renderServices() {
-  const box = $("serviceChoice");
-  box.innerHTML = "";
-  for (const [key, s] of Object.entries(state.settings.services)) {
-    const b = document.createElement("button");
-    b.type = "button"; b.className = "service";
-    b.setAttribute("aria-pressed", String(key === state.service));
-    b.innerHTML = `<b>${s.name}</b><span>$${s.price}</span>`;
-    b.onclick = () => { state.service = key; renderServices(); updateSummary(); };
-    box.appendChild(b);
-  }
-}
-
 function updateSummary() {
   const ready = state.date && state.start !== null;
   $("summary").innerHTML = ready
-    ? `<strong>${state.settings.services[state.service].name}</strong> · ${prettyDate(state.date)} · <strong>${timeLabel(state.start)}</strong>`
-    : "Pick a day and a time.";
+    ? `<strong>${I18N.dateLong(state.date)}</strong> · <strong dir="ltr">${I18N.time(state.start)}</strong>`
+    : t("summary.empty");
   $("bookBtn").disabled = !ready;
 }
 
-$("menu").addEventListener("click", (e) => {
-  const item = e.target.closest("[data-service]");
-  if (!item || !state.settings) return;
-  state.service = item.dataset.service;
-  renderServices(); updateSummary();
-  $("book").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
-});
+function renderDone() {
+  const b = state.booked;
+  if (!b) return;
+  $("doneTime").innerHTML = `${I18N.dateLong(b.date)} · <span dir="ltr">${I18N.time(b.start)}</span>`;
+  // Isolate the name and number so right-to-left text never reorders their characters.
+  $("doneText").textContent = t("done.text", { name: "\u2068" + b.name + "\u2069", phone: "\u2066" + b.phone + "\u2069" });
+}
 
 $("form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const err = $("error");
   err.hidden = true;
   const name = $("name").value.trim(), phone = $("phone").value.trim();
-  if (!name || !phone) { err.textContent = "Please enter your name and phone number."; err.hidden = false; return; }
+  if (!name || !phone) { err.textContent = I18N.error("missing_details"); err.hidden = false; return; }
   $("bookBtn").disabled = true;
-  const res = await fetch("/api/bookings", {
-    method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ date: state.date, start: state.start, name, phone, service: state.service }),
-  });
-  const data = await res.json();
-  if (!res.ok) { err.textContent = data.error; err.hidden = false; state.start = null; loadSlots(); updateSummary(); return; }
-  $("doneTime").textContent = `${prettyDate(data.date)} · ${timeLabel(data.start)}`;
-  $("doneText").textContent = `See you then, ${data.name}. Bilel will call ${data.phone} if anything changes. Need to change it? Call 54 182 077.`;
+  let res, data;
+  try {
+    res = await fetch("/api/bookings", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ date: state.date, start: state.start, name, phone }),
+    });
+    data = await res.json();
+  } catch { res = { ok: false }; data = {}; }
+  if (!res.ok) { err.textContent = I18N.error(data.code); err.hidden = false; state.start = null; loadSlots(); updateSummary(); return; }
+  state.booked = data;
+  renderDone();
   document.querySelectorAll("[data-booking]").forEach((c) => (c.hidden = true));
   $("doneCard").hidden = false;
   $("book").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
 });
 
 $("againBtn").onclick = () => {
-  state.start = null;
+  state.start = null; state.booked = null;
   document.querySelectorAll("[data-booking]").forEach((c) => (c.hidden = false));
   $("doneCard").hidden = true;
   loadSlots(); updateSummary();
 };
 
+I18N.onChange(() => {
+  renderHours(); updateSummary(); renderDone();
+  if (state.settings) { renderDays(); renderSlots(); }
+  if (!$("error").hidden) $("error").hidden = true;
+});
+
 (async function init() {
+  updateSummary();
   state.settings = await fetch("/api/settings").then((r) => r.json());
-  const s = state.settings;
-  const hours = `Open ${timeLabel(hhmmToMin(s.openTime))} – ${timeLabel(hhmmToMin(s.closeTime))}`;
-  ["introHours", "bandHours", "bookHours"].forEach((id) => ($(id).textContent = hours));
-  for (const [k, v] of Object.entries(s.services)) {
-    const el = document.querySelector(`[data-price="${k}"]`);
-    if (el) el.textContent = `$${v.price}`;
-  }
+  renderHours();
   const today = new Date();
   for (let i = 0; i < 21; i++) {
     const d = ymd(new Date(today.getFullYear(), today.getMonth(), today.getDate() + i));
     if (!isClosed(d)) { state.date = d; break; }
   }
-  renderDays(); renderServices(); loadSlots(); updateSummary();
+  renderDays(); loadSlots(); updateSummary();
 })();
 </script>
 </body>

@@ -21,6 +21,12 @@ npm start
 | `DATA_DIR`       | Folder where bookings and settings are saved  | `./data`     |
 | `DATABASE_URL`   | Postgres connection string. When set, bookings are saved there instead of `DATA_DIR` | not set |
 
+## Languages
+
+The site and the admin page are in French (default), English and Arabic (right-to-left), with a switch in the header
+and footer. The choice is remembered on each device. Add `?lang=en` or `?lang=ar` to a link to open it in that language.
+All texts are in `public/i18n.js`.
+
 ## What Bilel can do on the admin page
 
 - **Schedule**: see each day's appointments and mark them Done or Delayed (+10/15/30/45 min), set them back to on time, or delete them.

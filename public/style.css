@@ -79,24 +79,21 @@ input, select {
 input::placeholder { color: var(--red-faint); }
 input:focus, select:focus { outline: none; border-bottom-color: var(--red); }
 
-.services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.service {
-  border: 1px solid var(--line); padding: 14px 16px; cursor: pointer; display: grid; gap: 2px;
-  background: var(--white); text-align: left; transition: border-color 0.2s, background 0.2s, color 0.2s;
-}
-.service b { font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; font-size: 13px; }
-.service span { font-size: 14px; color: var(--red-soft); }
-.service:hover { border-color: var(--red); }
-.service[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: var(--white); }
-.service[aria-pressed="true"] span { color: var(--white); }
-
 .msg { margin: 0; padding: 12px 14px; background: var(--tint); color: var(--red); border-left: 2px solid var(--red); }
 .msg.ok { background: var(--red); color: var(--white); border-left-color: var(--red); }
 
 @media (max-width: 600px) {
   .form { grid-template-columns: 1fr; }
-  .services { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* Arabic: small uppercase Latin labels need a larger size once letter-spacing is removed */
+html[lang="ar"] .eyebrow, html[lang="ar"] label, html[lang="ar"] .btn,
+html[lang="ar"] .top nav a, html[lang="ar"] .foot-links, html[lang="ar"] footer a,
+html[lang="ar"] .caption, html[lang="ar"] .item .more, html[lang="ar"] .contact a,
+html[lang="ar"] .tab, html[lang="ar"] .counts, html[lang="ar"] .pill,
+html[lang="ar"] .day .dow, html[lang="ar"] .day .mon, html[lang="ar"] .wd, html[lang="ar"] .cell .c { font-size: max(1em, 14px); }
+html[lang="ar"] .day .dow, html[lang="ar"] .day .mon, html[lang="ar"] .cell .c, html[lang="ar"] .wd { font-size: 12px; }
+html[lang="ar"] .item h3 { font-size: 18px; }

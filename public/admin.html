@@ -1,20 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr" data-title-key="a.title">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bilel Hedhli · Admin</title>
+<script src="/i18n.js"></script>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Tajawal:wght@300;400;500;700&display=swap">
 <link rel="stylesheet" href="/style.css">
 <style>
   /* Admin: same red-and-white editorial look, tuned for daily use. */
   .wrap { max-width: 980px; margin: 0 auto; padding-block: 0 72px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); display: grid; gap: 28px; }
   .brand { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-block: 22px; border-bottom: 1px solid var(--line); }
   .brand h1 { font-size: 24px; font-weight: 400; letter-spacing: 0.5em; text-transform: uppercase; }
-  .brand h1 .b { font-size: 11px; letter-spacing: 0.3em; font-weight: 500; margin-left: 10px; vertical-align: 4px; }
+  .brand h1 .b { font-size: 11px; letter-spacing: 0.3em; font-weight: 500; margin-inline-start: 14px; vertical-align: 4px; }
+  .brand h1 .latin { letter-spacing: 0.5em; }
   .brand p { display: none; }
   .card { min-width: 0; }
   .card h2, .daybar h2, .cal-head h2 { font-size: clamp(28px, 4.5vw, 44px); font-weight: 300; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 18px; }
@@ -76,6 +78,17 @@
 
   .login { max-width: 380px; margin: 60px auto 0; width: 100%; display: grid; gap: 22px; }
 
+  .lang-switch { display: flex; gap: 2px; }
+  .lang-switch button { background: none; border: 0; color: var(--red); cursor: pointer; padding: 4px 6px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; opacity: 0.6; }
+  .lang-switch button[lang="ar"] { font-family: "Tajawal", var(--font); font-size: 13px; letter-spacing: 0; }
+  .lang-switch button:hover, .lang-switch button[aria-pressed="true"] { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+  html[lang="ar"] body { font-family: "Tajawal", var(--font); }
+  html[lang="ar"] *:not(.latin):not(.latin *) { letter-spacing: 0 !important; }
+  .latin { direction: ltr; }
+  .flip { display: inline-block; }
+  [dir="rtl"] .flip { transform: scaleX(-1); }
+  .cell, .appt .time { text-align: start; }
+
   @media (max-width: 600px) {
     .appt { grid-template-columns: 130px 1fr; }
     .actions { grid-column: 1 / -1; justify-content: flex-start; }
@@ -90,37 +103,38 @@
 <main class="wrap">
   <header class="brand">
     <div>
-      <h1>Bilel<span class="b">Admin</span></h1>
+      <h1><span class="latin">Bilel</span><span class="b" data-i18n="a.admin">Admin</span></h1>
       <p>Your bookings, your calendar, your hours.</p>
     </div>
-    <div style="display:flex;gap:8px">
-      <a class="btn ghost small" href="/">View booking page</a>
-      <button class="btn ghost small" id="logoutBtn" type="button" hidden>Log out</button>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <div class="lang-switch"></div>
+      <a class="btn ghost small" href="/" data-i18n="a.viewSite">Voir le site</a>
+      <button class="btn ghost small" id="logoutBtn" type="button" hidden data-i18n="a.logout">Se déconnecter</button>
     </div>
   </header>
 
   <!-- Login -->
   <form class="card login" id="loginForm">
-    <h2>Barber login</h2>
-    <label>Password<input id="password" type="password" autocomplete="current-password" required></label>
-    <button class="btn" type="submit">Log in</button>
+    <h2 data-i18n="a.login">Espace barbier</h2>
+    <label><span data-i18n="a.password">Mot de passe</span><input id="password" type="password" autocomplete="current-password" required></label>
+    <button class="btn" type="submit" data-i18n="a.signin">Se connecter</button>
     <p class="msg" id="loginErr" hidden></p>
   </form>
 
   <div id="app" hidden style="display:grid;gap:20px">
     <nav class="tabs" role="tablist">
-      <button class="tab" role="tab" data-tab="schedule" aria-selected="true">Schedule</button>
-      <button class="tab" role="tab" data-tab="calendar" aria-selected="false">Calendar</button>
-      <button class="tab" role="tab" data-tab="hours" aria-selected="false">Booking hours</button>
+      <button class="tab" role="tab" data-tab="schedule" aria-selected="true" data-i18n="a.tab.schedule">Planning</button>
+      <button class="tab" role="tab" data-tab="calendar" aria-selected="false" data-i18n="a.tab.calendar">Calendrier</button>
+      <button class="tab" role="tab" data-tab="hours" aria-selected="false" data-i18n="a.tab.hours">Horaires</button>
     </nav>
 
     <!-- Schedule -->
     <section class="card" id="tab-schedule">
       <div class="daybar">
-        <h2 id="schedTitle">Today</h2>
-        <button class="btn ghost small" id="prevDay" type="button" aria-label="Previous day">‹</button>
+        <h2 id="schedTitle"></h2>
+        <button class="btn ghost small" id="prevDay" type="button" data-i18n-aria="a.prevDay"><span class="flip">‹</span></button>
         <input type="date" id="schedDate">
-        <button class="btn ghost small" id="nextDay" type="button" aria-label="Next day">›</button>
+        <button class="btn ghost small" id="nextDay" type="button" data-i18n-aria="a.nextDay"><span class="flip">›</span></button>
       </div>
       <div class="counts" id="counts"></div>
       <p class="msg" id="closedNote" hidden></p>
@@ -130,36 +144,32 @@
     <!-- Calendar -->
     <section class="card" id="tab-calendar" hidden>
       <div class="cal-head">
-        <h2 id="calTitle">Month</h2>
-        <button class="btn ghost small" id="prevMonth" type="button" aria-label="Previous month">‹</button>
-        <button class="btn ghost small" id="nextMonth" type="button" aria-label="Next month">›</button>
+        <h2 id="calTitle"></h2>
+        <button class="btn ghost small" id="prevMonth" type="button" data-i18n-aria="a.prevMonth"><span class="flip">‹</span></button>
+        <button class="btn ghost small" id="nextMonth" type="button" data-i18n-aria="a.nextMonth"><span class="flip">›</span></button>
       </div>
       <div class="grid7" id="calGrid"></div>
-      <div class="day-panel" id="dayPanel"><p>Tap a day to close it or open it.</p></div>
+      <div class="day-panel" id="dayPanel"></div>
     </section>
 
     <!-- Hours -->
     <section class="card" id="tab-hours" hidden>
-      <h2>Booking hours</h2>
+      <h2 data-i18n="a.h.title">Horaires de réservation</h2>
       <form id="hoursForm" style="display:grid;gap:18px">
         <div class="hours-form">
-          <label>Customers can book from<input type="time" id="openTime" required></label>
-          <label>Last appointment ends at<input type="time" id="closeTime" required></label>
-          <label>Each appointment lasts
-            <select id="slotMinutes">
-              <option value="15">15 minutes</option><option value="20">20 minutes</option>
-              <option value="30">30 minutes</option><option value="45">45 minutes</option>
-              <option value="60">1 hour</option>
-            </select>
+          <label><span data-i18n="a.h.from"></span><input type="time" id="openTime" required></label>
+          <label><span data-i18n="a.h.to"></span><input type="time" id="closeTime" required></label>
+          <label><span data-i18n="a.h.length"></span>
+            <select id="slotMinutes"></select>
           </label>
         </div>
         <div>
-          <div style="font-size:14px;font-weight:600;margin-bottom:6px">Closed every week on</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:6px" data-i18n="a.h.weekly"></div>
           <div class="weekdays" id="weekdays"></div>
         </div>
         <p class="preview" id="hoursPreview"></p>
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <button class="btn" type="submit">Save hours</button>
+          <button class="btn" type="submit" data-i18n="a.h.save">Enregistrer</button>
           <p class="msg" id="hoursMsg" hidden></p>
         </div>
       </form>
@@ -169,17 +179,12 @@
 
 <script>
 const $ = (id) => document.getElementById(id);
-const DOW = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-const MON = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-const SERVICE_NAMES = { haircut: "Haircut", beard: "Beard trim", combo: "Haircut + Beard" };
+const { t } = I18N;
 const pad = (n) => String(n).padStart(2, "0");
 const ymd = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 const parse = (s) => new Date(s + "T12:00:00");
 const hhmmToMin = (s) => { const [h, m] = s.split(":").map(Number); return h * 60 + m; };
-function timeLabel(min) {
-  const m = ((min % 1440) + 1440) % 1440, h = Math.floor(m / 60);
-  return `${((h + 11) % 12) + 1}:${pad(m % 60)} ${h < 12 ? "AM" : "PM"}`;
-}
+const timeLabel = (min) => `<span dir="ltr">${I18N.time(min)}</span>`;
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 let token = null;
@@ -194,8 +199,8 @@ async function api(path, opts = {}) {
     body: opts.body ? JSON.stringify(opts.body) : undefined,
   });
   const data = await res.json().catch(() => ({}));
-  if (res.status === 401 && path !== "/api/login") { logout(); throw new Error(data.error); }
-  if (!res.ok) throw new Error(data.error || "Something went wrong.");
+  if (res.status === 401 && path !== "/api/login") { logout(); throw new Error(I18N.error(data.code)); }
+  if (!res.ok) throw new Error(I18N.error(data.code));
   return data;
 }
 
@@ -242,28 +247,28 @@ async function renderSchedule() {
   $("schedDate").value = date;
   const d = parse(date);
   const today = ymd(new Date());
-  $("schedTitle").textContent = date === today ? "Today" : `${DOW[d.getDay()].slice(0, 3)} ${d.getDate()} ${MON[d.getMonth()].slice(0, 3)}`;
+  $("schedTitle").textContent = date === today ? t("a.today") : I18N.dateShort(date);
   const list = await api(`/api/admin/bookings?from=${date}&to=${date}`);
   const c = { booked: 0, done: 0, delayed: 0 };
   list.forEach((b) => c[b.status]++);
-  $("counts").innerHTML = `<span><b>${list.length}</b> total</span><span><b>${c.booked}</b> waiting</span><span><b>${c.delayed}</b> delayed</span><span><b>${c.done}</b> done</span>`;
+  $("counts").innerHTML = `<span><b>${list.length}</b> ${t("a.c.total")}</span><span><b>${c.booked}</b> ${t("a.c.waiting")}</span><span><b>${c.delayed}</b> ${t("a.c.delayed")}</span><span><b>${c.done}</b> ${t("a.c.done")}</span>`;
   const closedNote = $("closedNote");
   closedNote.hidden = !isClosed(date);
-  closedNote.textContent = "This day is closed. Customers cannot book it.";
+  closedNote.textContent = t("a.closedNote");
   const box = $("apptList");
-  if (!list.length) { box.innerHTML = `<p class="empty">No appointments on this day.</p>`; return; }
+  if (!list.length) { box.innerHTML = `<p class="empty">${t("a.noAppts")}</p>`; return; }
   box.innerHTML = list.map((b) => {
     const delayed = b.status === "delayed";
     const actions = view.delayFor === b.id
-      ? `<span class="delay-pick">${[10, 15, 30, 45].map((m) => `<button class="btn small" data-act="delay" data-min="${m}" data-id="${b.id}">+${m} min</button>`).join("")}<button class="btn ghost small" data-act="cancelDelay">Cancel</button></span>`
-      : `${b.status !== "done" ? `<button class="btn small" data-act="done" data-id="${b.id}">Done</button>` : `<button class="btn ghost small" data-act="undo" data-id="${b.id}">Undo</button>`}
-         ${b.status !== "done" ? `<button class="btn ghost small" data-act="pickDelay" data-id="${b.id}">${delayed ? "Change delay" : "Delay"}</button>` : ""}
-         ${delayed ? `<button class="btn ghost small" data-act="undo" data-id="${b.id}">On time</button>` : ""}
-         <button class="btn danger small ${view.armedDelete === b.id ? "confirm" : ""}" data-act="delete" data-id="${b.id}">${view.armedDelete === b.id ? "Tap again to delete" : "Delete"}</button>`;
+      ? `<span class="delay-pick">${[10, 15, 30, 45].map((m) => `<button class="btn small" data-act="delay" data-min="${m}" data-id="${b.id}"><span dir="ltr">+${m} min</span></button>`).join("")}<button class="btn ghost small" data-act="cancelDelay">${t("a.cancel")}</button></span>`
+      : `${b.status !== "done" ? `<button class="btn small" data-act="done" data-id="${b.id}">${t("a.done")}</button>` : `<button class="btn ghost small" data-act="undo" data-id="${b.id}">${t("a.undo")}</button>`}
+         ${b.status !== "done" ? `<button class="btn ghost small" data-act="pickDelay" data-id="${b.id}">${delayed ? t("a.changeDelay") : t("a.delay")}</button>` : ""}
+         ${delayed ? `<button class="btn ghost small" data-act="undo" data-id="${b.id}">${t("a.onTime")}</button>` : ""}
+         <button class="btn danger small ${view.armedDelete === b.id ? "confirm" : ""}" data-act="delete" data-id="${b.id}">${view.armedDelete === b.id ? t("a.confirmDelete") : t("a.delete")}</button>`;
     return `<div class="appt ${b.status === "done" ? "is-done" : ""}">
-      <div class="time">${timeLabel(b.start)}${delayed ? `<small>+${b.delayMinutes} min → ${timeLabel(b.start + b.delayMinutes)}</small>` : ""}</div>
-      <div class="who"><b>${esc(b.name)}<span class="pill ${b.status}">${b.status === "booked" ? "Waiting" : b.status}</span></b>
-        <span>${SERVICE_NAMES[b.service] || b.service} · ${esc(b.phone)}</span></div>
+      <div class="time">${timeLabel(b.start)}${delayed ? `<small dir="ltr">+${b.delayMinutes} min → ${I18N.time(b.start + b.delayMinutes)}</small>` : ""}</div>
+      <div class="who"><b>${esc(b.name)}<span class="pill ${b.status}">${t("a.pill." + b.status)}</span></b>
+        <span>${b.service ? t("svc." + b.service) + " · " : ""}<span dir="ltr">${esc(b.phone)}</span></span></div>
       <div class="actions">${actions}</div>
     </div>`;
   }).join("");
@@ -293,21 +298,21 @@ $("nextMonth").onclick = () => { view.month.setMonth(view.month.getMonth() + 1);
 
 async function renderCalendar() {
   const m = view.month;
-  $("calTitle").textContent = `${MON[m.getMonth()]} ${m.getFullYear()}`;
+  $("calTitle").textContent = I18N.monthYear(m);
   const first = ymd(m);
   const last = ymd(new Date(m.getFullYear(), m.getMonth() + 1, 0));
   const list = await api(`/api/admin/bookings?from=${first}&to=${last}`);
   const counts = {};
   list.forEach((b) => (counts[b.date] = (counts[b.date] || 0) + 1));
   const today = ymd(new Date());
-  let html = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map((d) => `<div class="wd">${d}</div>`).join("");
+  let html = [0, 1, 2, 3, 4, 5, 6].map((i) => `<div class="wd">${I18N.weekday(i, "short")}</div>`).join("");
   for (let i = 0; i < m.getDay(); i++) html += `<div class="cell blank"></div>`;
   const days = new Date(m.getFullYear(), m.getMonth() + 1, 0).getDate();
   for (let n = 1; n <= days; n++) {
     const date = ymd(new Date(m.getFullYear(), m.getMonth(), n));
     const closed = isClosed(date);
     const cls = ["cell", closed && "closed", date < today && "past", date === today && "today"].filter(Boolean).join(" ");
-    const label = closed ? "Closed" : counts[date] ? `${counts[date]} booked` : "";
+    const label = closed ? t("a.cal.closed") : counts[date] ? t("a.cal.booked", { n: counts[date] }) : "";
     html += `<button type="button" class="${cls}" data-date="${date}" aria-pressed="${view.calSel === date}"><span class="n">${n}</span><span class="c">${label}</span></button>`;
   }
   $("calGrid").innerHTML = html;
@@ -317,21 +322,21 @@ async function renderCalendar() {
 function renderDayPanel(counts) {
   const panel = $("dayPanel");
   const date = view.calSel;
-  if (!date) { panel.innerHTML = `<p>Tap a day to close it or open it.</p>`; return; }
+  if (!date) { panel.innerHTML = `<p>${t("a.cal.hint")}</p>`; return; }
   const d = parse(date);
-  const title = `<strong>${DOW[d.getDay()]} ${d.getDate()} ${MON[d.getMonth()]}</strong>`;
+  const title = `<strong>${I18N.dateLong(date)}</strong>`;
   const n = counts[date] || 0;
   const weekly = settings.weeklyOff.includes(d.getDay());
   const closedDate = settings.closedDates.includes(date);
-  let text, buttons = `<button class="btn ghost small" data-p="view">See schedule</button>`;
+  let text, buttons = `<button class="btn ghost small" data-p="view">${t("a.seeSchedule")}</button>`;
   if (weekly) {
-    text = `${title} is closed because you close every ${DOW[d.getDay()]}. Change that in Booking hours.`;
+    text = t("a.weekly", { date: title, weekday: I18N.weekday(d.getDay(), "long") });
   } else if (closedDate) {
-    text = `${title} is closed.`;
-    buttons += `<button class="btn small" data-p="open">Open this day</button>`;
+    text = t("a.dayClosed", { date: title });
+    buttons += `<button class="btn small" data-p="open">${t("a.openDay")}</button>`;
   } else {
-    text = `${title} is open${n ? ` with ${n} booking${n > 1 ? "s" : ""}. Closing it keeps those bookings, so call those customers.` : "."}`;
-    buttons += `<button class="btn small" data-p="close">Close this whole day</button>`;
+    text = n ? t("a.dayOpenN", { date: title, n }) : t("a.dayOpen", { date: title });
+    buttons += `<button class="btn small" data-p="close">${t("a.closeDay")}</button>`;
   }
   panel.innerHTML = `<p>${text}</p><div style="display:flex;gap:8px;flex-wrap:wrap">${buttons}</div>`;
 }
@@ -354,9 +359,10 @@ $("dayPanel").addEventListener("click", async (e) => {
 function renderHours() {
   $("openTime").value = settings.openTime;
   $("closeTime").value = settings.closeTime;
+  $("slotMinutes").innerHTML = [15, 20, 30, 45, 60].map((n) => `<option value="${n}">${n === 60 ? t("a.h.hour") : t("a.h.min", { n })}</option>`).join("");
   $("slotMinutes").value = String(settings.slotMinutes);
-  $("weekdays").innerHTML = DOW.map((d, i) =>
-    `<label><input type="checkbox" id="wd${i}" value="${i}" ${settings.weeklyOff.includes(i) ? "checked" : ""}>${d.slice(0, 3)}</label>`).join("");
+  $("weekdays").innerHTML = [1, 2, 3, 4, 5, 6, 0].map((i) =>
+    `<label><input type="checkbox" id="wd${i}" value="${i}" ${settings.weeklyOff.includes(i) ? "checked" : ""}>${I18N.weekday(i, "short")}</label>`).join("");
   $("hoursMsg").hidden = true;
   updatePreview();
 }
@@ -369,9 +375,9 @@ function updatePreview() {
   if (overnight) close += 1440;
   const n = Math.floor((close - open) / slot);
   const lastStart = open + (n - 1) * slot;
-  $("hoursPreview").textContent = n > 0
-    ? `Customers can book from ${timeLabel(open)} to ${timeLabel(close)}${overnight ? " (after midnight)" : ""}: ${n} appointments a day, last one starts at ${timeLabel(lastStart)}.`
-    : "These hours leave no time for an appointment.";
+  $("hoursPreview").innerHTML = n > 0
+    ? t("a.h.preview", { open: timeLabel(open), close: timeLabel(close), overnight: overnight ? t("a.h.overnight") : "", n, last: timeLabel(lastStart) })
+    : t("err.no_slots");
 }
 ["openTime", "closeTime", "slotMinutes"].forEach((id) => $(id).addEventListener("input", updatePreview));
 
@@ -382,7 +388,7 @@ $("hoursForm").addEventListener("submit", async (e) => {
   try {
     settings = await api("/api/admin/settings", { method: "PUT", body: {
       openTime: $("openTime").value, closeTime: $("closeTime").value, slotMinutes: Number($("slotMinutes").value), weeklyOff } });
-    msg.className = "msg ok"; msg.textContent = "Saved. The booking page uses the new hours now.";
+    msg.className = "msg ok"; msg.textContent = t("a.h.saved");
   } catch (err) { msg.className = "msg"; msg.textContent = err.message; }
   msg.hidden = false;
 });
@@ -397,6 +403,19 @@ async function start() {
   $("logoutBtn").hidden = false;
   showTab("schedule");
 }
+I18N.apply();
+I18N.onChange(() => {
+  if (!settings || $("app").hidden) return;
+  const tab = document.querySelector('.tab[aria-selected="true"]').dataset.tab;
+  if (tab === "hours") {
+    // keep unsaved edits while switching language
+    const keep = { o: $("openTime").value, c: $("closeTime").value, s: $("slotMinutes").value, w: [...document.querySelectorAll("#weekdays input")].map((i) => i.checked) };
+    renderHours();
+    $("openTime").value = keep.o; $("closeTime").value = keep.c; $("slotMinutes").value = keep.s;
+    document.querySelectorAll("#weekdays input").forEach((i, k) => (i.checked = keep.w[k]));
+    updatePreview();
+  } else showTab(tab);
+});
 if (token) start();
 </script>
 </body>

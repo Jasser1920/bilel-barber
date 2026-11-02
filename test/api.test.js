@@ -106,6 +106,18 @@ test("a customer can book, and the same time cannot be booked twice", async () =
   assert.equal(slot.taken, true);
 });
 
+test("a customer can book without choosing a service", async () => {
+  const r = await json("POST", "/api/bookings", { date: MONDAY, start: 1140, name: "Sami", phone: "3" });
+  assert.equal(r.status, 201);
+  assert.equal(r.body.service, null);
+});
+
+test("errors carry a code for translation", async () => {
+  const r = await json("POST", "/api/bookings", { date: MONDAY, start: 960, name: "X", phone: "1" });
+  assert.equal(r.body.code, "taken");
+  assert.equal((await json("POST", "/api/login", { password: "nope" })).body.code, "wrong_password");
+});
+
 test("bad bookings are rejected", async () => {
   assert.equal((await json("POST", "/api/bookings", { date: MONDAY, start: 1020, name: "", phone: "1", service: "haircut" })).status, 400);
   assert.equal((await json("POST", "/api/bookings", { date: MONDAY, start: 1020, name: "A", phone: "1", service: "nope" })).status, 400);
